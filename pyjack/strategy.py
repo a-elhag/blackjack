@@ -18,15 +18,15 @@ class SimpleStrategy():
         self.split_hands = []
 
 
-    def play(self, hand):
+    def play(self, player_hand, dealer_hand):
         """Play strategy
         Adds cards to hand based on strategy
         Args:
             hand: hand to use with strategy
             dealer_hand: shown dealer card to use with strategy
         """
-        while hand.get_value() < 13:
-            hand.add_card(self.deck.deal())
+        while player_hand.get_value() < 12:
+            player_hand.add_card(self.deck.deal())
 
 
 class DealerStrategy():
@@ -51,22 +51,6 @@ class DealerStrategy():
             hand: hand to use with strategy
         """
 
-        while hand.get_value() < 18:
+        while hand.get_value() < 17:
             hand.add_card(self.deck.deal())
 
-
- 
-# d1 = Deck(1)
-# d1.shuffle()
-# 
-# h_player = Hand()
-# h_dealer = Hand()
-# 
-# S_player = SimpleStrategy(d1)
-# S_dealer = SimpleStrategy(d1)
-# 
-# S_player.play(h_player)
-# S_dealer.play(h_dealer)
-# 
-# print("Dealer \n", h_dealer, "\n")
-# print("Player \n", h_player)
