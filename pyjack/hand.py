@@ -14,10 +14,7 @@ class Hand():
         cards = "Cards: "
         cards = cards + " ".join([card.__str__() for card in self.cards])
         cards = cards + " (" + str(self.get_value()) + ")"
-        bet = "Bet: " + str(self.bet)
-
-        output = cards + "\n" + bet
-        return output
+        return cards
 
 
     def add_card(self, card):
