@@ -4,31 +4,31 @@ from src.card import Card
 from src.deck import Deck
 from src.hand import Hand
 from src.strategy import SimpleStrategy, DealerStrategy
-from src.game import Game
+from src.round import Round
 
-class TestGame:
-    def test_game_init(self):
+class TestRound:
+    def test_round_init(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        r = Round(d, SimpleStrategy, DealerStrategy)
 
 
-    def test_game_new_hand(self):
+    def test_round_new_hand(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
-        g.new_hand()
+        r = Round(d, SimpleStrategy, DealerStrategy)
+        r.new_hand()
 
-        assert g.player_hand.cards[0].suit == 'Spade'
-        assert g.player_hand.cards[0].value == 'A'
-        assert g.player_hand.cards[1].suit == 'Spade'
-        assert g.player_hand.cards[1].value == '3'
+        assert r.player_hand.cards[0].suit == 'Spade'
+        assert r.player_hand.cards[0].value == 'A'
+        assert r.player_hand.cards[1].suit == 'Spade'
+        assert r.player_hand.cards[1].value == '3'
 
-        assert g.dealer_hand.cards[0].suit == 'Spade'
-        assert g.dealer_hand.cards[0].value == '2'
-        assert g.dealer_hand.cards[1].suit == 'Spade'
-        assert g.dealer_hand.cards[1].value == '4'
+        assert r.dealer_hand.cards[0].suit == 'Spade'
+        assert r.dealer_hand.cards[0].value == '2'
+        assert r.dealer_hand.cards[1].suit == 'Spade'
+        assert r.dealer_hand.cards[1].value == '4'
 
 
-    def test_game_check_blackjack(self):
+    def test_round_check_blackjack(self):
         c_2 = Card('Club', '3')
         c_j = Card('Heart', 'J')
         c_A = Card('Club', 'A')
@@ -49,10 +49,10 @@ class TestGame:
         h_dealer_bj.add_card(c_j) 
         h_dealer_bj.add_card(c_A) 
 
-        flag_player_nobj, flag_dealer_nobj = Game.check_blackjack(
+        flag_player_nobj, flag_dealer_nobj = Round.check_blackjack(
                 h_player_nobj, h_dealer_nobj)
 
-        flag_player_bj, flag_dealer_bj = Game.check_blackjack(
+        flag_player_bj, flag_dealer_bj = Round.check_blackjack(
                 h_player_bj, h_dealer_bj)
 
         assert flag_player_nobj == False
@@ -61,7 +61,7 @@ class TestGame:
         assert flag_dealer_bj == True
 
 
-    def test_game_check_bust(self):
+    def test_round_check_bust(self):
         c_2 = Card('Club', '3')
         c_j = Card('Heart', 'J')
         c_A = Card('Club', 'A')
@@ -76,47 +76,47 @@ class TestGame:
         h_bust.add_card(c_j) 
         h_bust.add_card(c_A) 
 
-        assert Game.check_bust(h_no_bust) == False
-        assert Game.check_bust(h_bust) == True
+        assert Round.check_bust(h_no_bust) == False
+        assert Round.check_bust(h_bust) == True
 
 
-    def test_game_play_init(self):
+    def test_round_play_init(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        r = Round(d, SimpleStrategy, DealerStrategy)
 
-        assert g.game_info["wins"] == 0
-        assert g.game_info["ties"] == 0
-        assert g.game_info["losses"] == 0
+        assert r.round_info["wins"] == 0
+        assert r.round_info["ties"] == 0
+        assert r.round_info["losses"] == 0
 
 
-    def test_game_play_loss(self):
+    def test_round_play_loss(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
 
         g.play()
 
-        assert g.game_info["wins"] == 0
-        assert g.game_info["ties"] == 0
-        assert g.game_info["losses"] == 1
+        assert g.round_info["wins"] == 0
+        assert g.round_info["ties"] == 0
+        assert g.round_info["losses"] == 1
 
 
-    def test_game_play_tie(self):
+    def test_round_play_tie(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        r = Round(d, SimpleStrategy, DealerStrategy)
         
         for idx in range(4):
-            g.deck.set_card(idx, "Club", "J")
+            r.deck.set_card(idx, "Club", "J")
 
-        g.play()
+        r.play()
 
-        assert g.game_info["wins"] == 0
-        assert g.game_info["ties"] == 1
-        assert g.game_info["losses"] == 0
+        assert r.round_info["wins"] == 0
+        assert r.round_info["ties"] == 1
+        assert r.round_info["losses"] == 0
 
 
-    def test_game_play_win(self):
+    def test_round_play_win(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -131,14 +131,14 @@ class TestGame:
         g.play()
 
         # Player should win since dealer definitely cannot hit above 17
-        assert g.game_info["wins"] == 1
-        assert g.game_info["ties"] == 0
-        assert g.game_info["losses"] == 0
+        assert g.round_info["wins"] == 1
+        assert g.round_info["ties"] == 0
+        assert g.round_info["losses"] == 0
 
 
-    def test_game_play_blackjack_dealer(self):
+    def test_round_play_blackjack_dealer(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "2")
@@ -152,9 +152,9 @@ class TestGame:
         g.play()
 
         # Dealer should automatically win since they have a blackjack
-        assert g.game_info["wins"] == 0
-        assert g.game_info["ties"] == 0
-        assert g.game_info["losses"] == 1
+        assert g.round_info["wins"] == 0
+        assert g.round_info["ties"] == 0
+        assert g.round_info["losses"] == 1
 
         # Also, player should not have had time to implement their strategy
         # Thus they should still have the exact same hand that they started with
@@ -162,9 +162,9 @@ class TestGame:
         assert g.player_hand.get_value() == 4
 
 
-    def test_game_play_blackjack_player(self):
+    def test_round_play_blackjack_player(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -180,21 +180,21 @@ class TestGame:
         g.play()
 
         # Player should win since they have a blackjack
-        assert g.game_info["wins"] == 1
-        assert g.game_info["ties"] == 0
-        assert g.game_info["losses"] == 0
+        assert g.round_info["wins"] == 1
+        assert g.round_info["ties"] == 0
+        assert g.round_info["losses"] == 0
 
         # And player should get the default payout multiplied by the payout for blackjack
-        assert g.game_info["earnings"] == g.default_bet * g.payout_blackjack
+        assert g.round_info["earnings"] == g.default_bet * g.payout_blackjack
 
 
         # And the dealer should have drawn up to 18
         assert g.dealer_hand.get_value() == 18
 
 
-    def test_game_play_blackjack_push(self):
+    def test_round_play_blackjack_push(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -208,14 +208,14 @@ class TestGame:
         g.play()
 
         # Should be a tie
-        assert g.game_info["wins"] == 0
-        assert g.game_info["ties"] == 1
-        assert g.game_info["losses"] == 0
+        assert g.round_info["wins"] == 0
+        assert g.round_info["ties"] == 1
+        assert g.round_info["losses"] == 0
 
 
-    def test_game_play_dealer_bust(self):
+    def test_round_play_dealer_bust(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -231,23 +231,23 @@ class TestGame:
         g.play()
 
         # The dealer should bust
-        assert g.game_info["wins"] == 1
-        assert g.game_info["ties"] == 0
-        assert g.game_info["losses"] == 0
+        assert g.round_info["wins"] == 1
+        assert g.round_info["ties"] == 0
+        assert g.round_info["losses"] == 0
 
         assert g.dealer_hand.get_value() == 26
 
 
-    def test_game_play_end_deck(self):
+    def test_round_play_end_deck(self):
         d = Deck(1)
-        g = Game(d, SimpleStrategy, DealerStrategy)
+        g = Round(d, SimpleStrategy, DealerStrategy)
         
         for _ in range(20):
             g.play()
 
-        assert g.game_info["wins"] == 2
-        assert g.game_info["ties"] == 1
-        assert g.game_info["losses"] == 7
-        assert g.game_info["earnings"] == -25.0
+        assert g.round_info["wins"] == 2
+        assert g.round_info["ties"] == 1
+        assert g.round_info["losses"] == 7
+        assert g.round_info["earnings"] == -25.0
 
 

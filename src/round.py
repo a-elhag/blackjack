@@ -6,7 +6,7 @@ from src.strategy import SimpleStrategy, DealerStrategy
 
 logging.basicConfig(level=logging.DEBUG)
 
-class Game():
+class Round():
     """Blackjack game
     Args:
         deck: finalized deck to use
@@ -20,35 +20,35 @@ class Game():
         self.dealer_strategy = dealer_strategy(deck)
         self.default_bet = 5.0
         self.payout_blackjack = 1.5
-        self.game_info = {"wins": 0, "ties": 0, "losses": 0, "earnings": 0.0}
+        self.round_info = {"wins": 0, "ties": 0, "losses": 0, "earnings": 0.0}
         self.has_split = False
 
         self.player_hand = Hand()
         self.dealer_hand = Hand()
 
 
-    def calculate_game(self):
+    def calculate_round(self):
         # Step 3: Check if there is a blackjack
-        flag_player_blackjack, flag_dealer_blackjack = Game.check_blackjack(
+        flag_player_blackjack, flag_dealer_blackjack = Round.check_blackjack(
                 self.player_hand, self.dealer_hand)
         if flag_player_blackjack and flag_dealer_blackjack:
             """This is a tie (push)"""
-            self.game_info["ties"] += 1
+            self.round_info["ties"] += 1
             return
         elif flag_dealer_blackjack:
             """Dealer has a blackjack, game automatically ends and player loses 
             their bet"""
-            self.game_info["losses"] += 1
-            self.game_info["earnings"] -= self.default_bet
+            self.round_info["losses"] += 1
+            self.round_info["earnings"] -= self.default_bet
             return
 
         # Step 4: Have the player use their strategy
         self.player_strategy.play(self.player_hand, self.dealer_hand)
 
         # Step 5: Check if the player busts
-        if Game.check_bust(self.player_hand):
-            self.game_info["losses"] += 1
-            self.game_info["earnings"] -= self.default_bet
+        if Round.check_bust(self.player_hand):
+            self.round_info["losses"] += 1
+            self.round_info["earnings"] -= self.default_bet
             return
 
         # Step 6: Have the dealer use their strategy
@@ -59,33 +59,33 @@ class Game():
             return
 
         # Step 8: Check if the dealer busts
-        if Game.check_bust(self.dealer_hand):
+        if Round.check_bust(self.dealer_hand):
             if flag_player_blackjack:
                 """Player gets a 'natural win', usually meaning a 3-2 payout"""
-                self.game_info["wins"] += 1
-                self.game_info["earnings"] += self.default_bet*self.payout_blackjack
+                self.round_info["wins"] += 1
+                self.round_info["earnings"] += self.default_bet*self.payout_blackjack
                 return
 
-            self.game_info["wins"] += 1
-            self.game_info["earnings"] += self.default_bet
+            self.round_info["wins"] += 1
+            self.round_info["earnings"] += self.default_bet
             return
 
         # Step 9: Check to see who won
         if self.player_hand.get_value() == self.dealer_hand.get_value():
-            self.game_info["ties"] += 1
+            self.round_info["ties"] += 1
             return
         elif self.player_hand.get_value() > self.dealer_hand.get_value():
             if flag_player_blackjack:
                 """Player gets a 'natural win', usually meaning a 3-2 payout"""
-                self.game_info["wins"] += 1
-                self.game_info["earnings"] += self.default_bet*self.payout_blackjack
+                self.round_info["wins"] += 1
+                self.round_info["earnings"] += self.default_bet*self.payout_blackjack
                 return
-            self.game_info["wins"] += 1
-            self.game_info["earnings"] += self.default_bet
+            self.round_info["wins"] += 1
+            self.round_info["earnings"] += self.default_bet
             return
         else:
-            self.game_info["losses"] += 1
-            self.game_info["earnings"] -= self.default_bet
+            self.round_info["losses"] += 1
+            self.round_info["earnings"] -= self.default_bet
             return
 
 
@@ -112,7 +112,7 @@ class Game():
         self.new_hand()
 
         # Calculate who won
-        self.calculate_game()
+        self.calculate_round()
 
 
     @staticmethod
@@ -145,7 +145,7 @@ class Game():
         self.play()
         logging.debug("(Player) " + self.player_hand.__str__())
         logging.debug("(Dealer) " + self.dealer_hand.__str__())
-        logging.debug("(Results) " + str(self.game_info))
+        logging.debug("(Results) " + str(self.round_info))
         
 
 def main():
@@ -153,10 +153,10 @@ def main():
     d.shuffle()
     d.cut()
 
-    g = Game(d, SimpleStrategy, DealerStrategy)
+    r = Round(d, SimpleStrategy, DealerStrategy)
 
     for _ in range(5):
-        g.display_a_hand()
+        r.display_a_hand()
 
 
 if __name__ == "__main__":
