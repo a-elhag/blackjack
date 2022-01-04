@@ -1,7 +1,7 @@
 import logging
-from deck import Deck
-from hand import Hand
-from strategy import SimpleStrategy, DealerStrategy
+from pyjack.deck import Deck
+from pyjack.hand import Hand
+from pyjack.strategy import SimpleStrategy, DealerStrategy
 
 logging.basicConfig(level=logging.DEBUG)
 

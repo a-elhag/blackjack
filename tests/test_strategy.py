@@ -1,5 +1,4 @@
 import pytest 
-import sys
 
 from pyjack.card import Card
 from pyjack.deck import Deck
@@ -40,10 +39,10 @@ class TestSimpleStrategy:
         assert h2.get_value() == 12
 
         s1 = SimpleStrategy(d)
-        s1.play(h1)
+        s1.play(h1, None)
 
         s2 = SimpleStrategy(d)
-        s2.play(h2)
+        s2.play(h2, None)
 
         assert len(h1.cards) == 2
         assert len(h2.cards) == 2
@@ -64,7 +63,7 @@ class TestSimpleStrategy:
         assert h.get_value() == 11
 
         s = SimpleStrategy(d)
-        s.play(h)
+        s.play(h, None)
 
         assert len(h.cards) == 3
 
