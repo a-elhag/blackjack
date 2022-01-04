@@ -8,13 +8,11 @@ from src.round import Round
 
 class TestRound:
     def test_round_init(self):
-        d = Deck(1)
-        r = Round(d, SimpleStrategy, DealerStrategy)
+        r = Round(6, SimpleStrategy, DealerStrategy)
 
 
     def test_round_new_hand(self):
-        d = Deck(1)
-        r = Round(d, SimpleStrategy, DealerStrategy)
+        r = Round(1, SimpleStrategy, DealerStrategy)
         r.new_hand()
 
         assert r.player_hand.cards[0].suit == 'Spade'
@@ -81,8 +79,7 @@ class TestRound:
 
 
     def test_round_play_init(self):
-        d = Deck(1)
-        r = Round(d, SimpleStrategy, DealerStrategy)
+        r = Round(1, SimpleStrategy, DealerStrategy)
 
         assert r.round_info["wins"] == 0
         assert r.round_info["ties"] == 0
@@ -90,8 +87,7 @@ class TestRound:
 
 
     def test_round_play_loss(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
+        g = Round(1, SimpleStrategy, DealerStrategy)
 
         g.play()
 
@@ -101,8 +97,7 @@ class TestRound:
 
 
     def test_round_play_tie(self):
-        d = Deck(1)
-        r = Round(d, SimpleStrategy, DealerStrategy)
+        r = Round(1, SimpleStrategy, DealerStrategy)
         
         for idx in range(4):
             r.deck.set_card(idx, "Club", "J")
@@ -115,8 +110,7 @@ class TestRound:
 
 
     def test_round_play_win(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
+        g = Round(1, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -137,8 +131,7 @@ class TestRound:
 
 
     def test_round_play_blackjack_dealer(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
+        g = Round(1, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "2")
@@ -163,8 +156,7 @@ class TestRound:
 
 
     def test_round_play_blackjack_player(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
+        g = Round(1, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -193,8 +185,7 @@ class TestRound:
 
 
     def test_round_play_blackjack_push(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
+        g = Round(1, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -214,8 +205,7 @@ class TestRound:
 
 
     def test_round_play_dealer_bust(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
+        g = Round(1, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
         g.deck.set_card(0, "Heart", "J")
@@ -236,18 +226,3 @@ class TestRound:
         assert g.round_info["losses"] == 0
 
         assert g.dealer_hand.get_value() == 26
-
-
-    def test_round_play_end_deck(self):
-        d = Deck(1)
-        g = Round(d, SimpleStrategy, DealerStrategy)
-        
-        for _ in range(20):
-            g.play()
-
-        assert g.round_info["wins"] == 2
-        assert g.round_info["ties"] == 1
-        assert g.round_info["losses"] == 7
-        assert g.round_info["earnings"] == -25.0
-
-

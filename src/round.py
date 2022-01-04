@@ -9,22 +9,27 @@ logging.basicConfig(level=logging.DEBUG)
 class Round():
     """Blackjack game
     Args:
-        deck: finalized deck to use
+        num_decks: number of decks
         player_strategy: strategy for player to inject
         dealer_strategy: strategy for dealer to use
     """
 
-    def __init__(self, deck, player_strategy, dealer_strategy):
-        self.deck = deck
-        self.player_strategy = player_strategy(deck)
-        self.dealer_strategy = dealer_strategy(deck)
+    def __init__(self, num_decks, player_strategy, dealer_strategy):
+        self.num_decks = num_decks
+        self.deck = Deck(self.num_decks)
+
+        self.player_strategy = player_strategy(self.deck)
+        self.dealer_strategy = dealer_strategy(self.deck)
+
         self.default_bet = 5.0
         self.payout_blackjack = 1.5
-        self.round_info = {"wins": 0, "ties": 0, "losses": 0, "earnings": 0.0}
+        self.round_info = {"wins": 0, "ties": 0, "losses": 0, "earnings": 0.0, "rounds": 0}
         self.has_split = False
 
         self.player_hand = Hand()
         self.dealer_hand = Hand()
+
+        self.flag_deck_done = False
 
 
     def calculate_round(self):
@@ -56,6 +61,7 @@ class Round():
 
         # Step 7: See if there is no cards left (Hand.get_value == -1)
         if self.player_hand.get_value() == -1 or self.dealer_hand.get_value() == -1:
+            self.flag_deck_done = True
             return
 
         # Step 8: Check if the dealer busts
@@ -103,16 +109,29 @@ class Round():
         # Step 2: Initialize default bet
         self.player_hand.add_bet(self.default_bet)
 
+
     def play(self):
         """Play a game
         Returns game obj with stats
         """
+        self.round_info["rounds"] += 1
+
+        # Shuffle deck if deck is finished
+        self.shuffle_deck()
 
         # Deal a New Hand
         self.new_hand()
 
         # Calculate who won
         self.calculate_round()
+
+
+    def shuffle_deck(self):
+        if self.flag_deck_done == True:
+            self.deck = Deck(self.num_decks)
+            self.deck.shuffle()
+            self.deck.cut()
+            self.flag_deck_done = False
 
 
     @staticmethod
