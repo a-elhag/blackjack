@@ -1,6 +1,6 @@
 import pytest
-from pyjack.card import Card
-from pyjack.hand import Hand
+from src.card import Card
+from src.hand import Hand
 
 class TestHand():
     def test_hand_init(self):

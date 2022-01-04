@@ -1,5 +1,5 @@
 import pytest
-from pyjack.card import Card
+from src.card import Card
 
 
 class TestCard:

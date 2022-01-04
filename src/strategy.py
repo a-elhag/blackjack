@@ -1,4 +1,4 @@
-from pyjack.card import Card
+from src.card import Card
 
 HIT = "H"
 DOUBLE = "D"

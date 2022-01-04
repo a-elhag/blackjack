@@ -1,10 +1,10 @@
 import pytest
 
-from pyjack.card import Card
-from pyjack.deck import Deck
-from pyjack.hand import Hand
-from pyjack.strategy import SimpleStrategy, DealerStrategy
-from pyjack.game import Game
+from src.card import Card
+from src.deck import Deck
+from src.hand import Hand
+from src.strategy import SimpleStrategy, DealerStrategy
+from src.game import Game
 
 class TestGame:
     def test_game_init(self):

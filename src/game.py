@@ -1,6 +1,6 @@
-from pyjack.deck import Deck
-from pyjack.hand import Hand
-from pyjack.strategy import SimpleStrategy, DealerStrategy
+from src.deck import Deck
+from src.hand import Hand
+from src.strategy import SimpleStrategy, DealerStrategy
 
 class Game():
     """Blackjack game

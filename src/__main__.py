@@ -1,8 +1,8 @@
 """Main module"""
 import logging
-from pyjack.deck import Deck
-from pyjack.game import Game
-from pyjack.strategy import SimpleStrategy, DealerStrategy
+from src.deck import Deck
+from src.game import Game
+from src.strategy import SimpleStrategy, DealerStrategy
 
 logging.basicConfig(level=logging.DEBUG)
 

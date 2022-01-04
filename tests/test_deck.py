@@ -1,5 +1,5 @@
 import pytest
-from pyjack.deck import Deck
+from src.deck import Deck
 
 
 class TestDeck():
