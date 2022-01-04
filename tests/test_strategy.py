@@ -1,4 +1,6 @@
 import pytest 
+import sys
+
 from pyjack.card import Card
 from pyjack.deck import Deck
 from pyjack.hand import Hand
