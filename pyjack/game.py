@@ -1,9 +1,6 @@
-import logging
 from pyjack.deck import Deck
 from pyjack.hand import Hand
 from pyjack.strategy import SimpleStrategy, DealerStrategy
-
-logging.basicConfig(level=logging.DEBUG)
 
 class Game():
     """Blackjack game
@@ -72,7 +69,11 @@ class Game():
         # Step 6: Have the dealer use their strategy
         self.dealer_strategy.play(self.dealer_hand)
 
-        # Step 7: Check if the dealer busts
+        # Step 7: See if there is no cards left (Hand.get_value == -1)
+        if self.player_hand.get_value() == -1 or self.dealer_hand.get_value() == -1:
+            return
+
+        # Step 8: Check if the dealer busts
         if Game.check_bust(self.dealer_hand):
             if flag_player_blackjack:
                 """Player gets a 'natural win', usually meaning a 3-2 payout"""
@@ -84,7 +85,7 @@ class Game():
             self.game_info["earnings"] += self.default_bet
             return
 
-        # Step 8: Check to see who won
+        # Step 9: Check to see who won
         if self.player_hand.get_value() == self.dealer_hand.get_value():
             self.game_info["ties"] += 1
             return
@@ -134,7 +135,6 @@ class Game():
         logging.debug("(Dealer) " + self.dealer_hand.__str__())
         logging.debug("(Results) " + str(self.game_info))
         
-
 
 def main():
     d = Deck(1)

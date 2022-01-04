@@ -40,9 +40,14 @@ class Hand():
         """
 
         self.value = 0
-
         counter_ace = 0
+
+        self.flag_cards_over = False
+
         for card in self.cards:
+            if card == None:
+                self.flag_cards_over = True
+                break
             if card.value.isnumeric():
                 self.value += int(card.value)
             else:
@@ -65,4 +70,7 @@ class Hand():
         """Calculate value of hand and then return it"""
 
         self.calculate_value()
-        return self.value
+        if self.flag_cards_over:
+            return -1
+        else:
+            return self.value

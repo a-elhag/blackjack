@@ -1,3 +1,5 @@
+from pyjack.card import Card
+
 HIT = "H"
 DOUBLE = "D"
 STAND = "St"
@@ -22,8 +24,14 @@ class SimpleStrategy():
             hand: hand to use with strategy
             dealer_hand: shown dealer card to use with strategy
         """
-        while player_hand.get_value() < 12:
-            player_hand.add_card(self.deck.deal())
+
+
+        while player_hand.get_value() < 12 and player_hand.get_value() > 2:
+            c = self.deck.deal()
+            player_hand.add_card(c)
+
+            if c == None:
+                break
 
 
 class DealerStrategy():
@@ -48,6 +56,6 @@ class DealerStrategy():
             hand: hand to use with strategy
         """
 
-        while hand.get_value() < 17:
+        while hand.get_value() < 17 and hand.get_value() > 2:
             hand.add_card(self.deck.deal())
 

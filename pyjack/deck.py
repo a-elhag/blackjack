@@ -35,6 +35,8 @@ class Deck():
         """Gets first card from deck by returning it"""
         if len(self.cards) > 1:
             return self.cards.pop(0)
+        else:
+            return None
 
 
     def change_card(self, location, suit, value):
