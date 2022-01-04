@@ -238,3 +238,16 @@ class TestGame:
         assert g.dealer_hand.get_value() == 26
 
 
+    def test_game_play_end_deck(self):
+        d = Deck(1)
+        g = Game(d, SimpleStrategy, DealerStrategy)
+        
+        for _ in range(20):
+            g.play()
+
+        assert g.game_info["wins"] == 2
+        assert g.game_info["ties"] == 1
+        assert g.game_info["losses"] == 7
+        assert g.game_info["earnings"] == -25.0
+
+
