@@ -105,7 +105,7 @@ class TestGame:
         g = Game(d, SimpleStrategy, DealerStrategy)
         
         for idx in range(4):
-            g.deck.change_card(idx, "Club", "J")
+            g.deck.set_card(idx, "Club", "J")
 
         g.play()
 
@@ -119,13 +119,13 @@ class TestGame:
         g = Game(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
-        g.deck.change_card(0, "Heart", "J")
+        g.deck.set_card(0, "Heart", "J")
         # Then dealer
-        g.deck.change_card(1, "Club", "8")
+        g.deck.set_card(1, "Club", "8")
         # Then player
-        g.deck.change_card(2, "Club", "J")
+        g.deck.set_card(2, "Club", "J")
         # Then finally dealer
-        g.deck.change_card(3, "Club", "J")
+        g.deck.set_card(3, "Club", "J")
 
 
         g.play()
@@ -141,13 +141,13 @@ class TestGame:
         g = Game(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
-        g.deck.change_card(0, "Heart", "2")
+        g.deck.set_card(0, "Heart", "2")
         # Then dealer
-        g.deck.change_card(1, "Club", "J")
+        g.deck.set_card(1, "Club", "J")
         # Then player
-        g.deck.change_card(2, "Club", "2")
+        g.deck.set_card(2, "Club", "2")
         # Then finally dealer
-        g.deck.change_card(3, "Club", "A")
+        g.deck.set_card(3, "Club", "A")
 
         g.play()
 
@@ -167,15 +167,15 @@ class TestGame:
         g = Game(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
-        g.deck.change_card(0, "Heart", "J")
+        g.deck.set_card(0, "Heart", "J")
         # Then dealer
-        g.deck.change_card(1, "Club", "J")
+        g.deck.set_card(1, "Club", "J")
         # Then player
-        g.deck.change_card(2, "Club", "A")
+        g.deck.set_card(2, "Club", "A")
         # Then finally dealer
-        g.deck.change_card(3, "Club", "5")
+        g.deck.set_card(3, "Club", "5")
         # Dealer will draw this last card since they are below < 17
-        g.deck.change_card(4, "Diamond", "3")
+        g.deck.set_card(4, "Diamond", "3")
 
         g.play()
 
@@ -197,13 +197,13 @@ class TestGame:
         g = Game(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
-        g.deck.change_card(0, "Heart", "J")
+        g.deck.set_card(0, "Heart", "J")
         # Then dealer
-        g.deck.change_card(1, "Club", "J")
+        g.deck.set_card(1, "Club", "J")
         # Then player
-        g.deck.change_card(2, "Club", "A")
+        g.deck.set_card(2, "Club", "A")
         # Then finally dealer
-        g.deck.change_card(3, "Club", "A")
+        g.deck.set_card(3, "Club", "A")
 
         g.play()
 
@@ -218,15 +218,15 @@ class TestGame:
         g = Game(d, SimpleStrategy, DealerStrategy)
         
         # Player gets cards first
-        g.deck.change_card(0, "Heart", "J")
+        g.deck.set_card(0, "Heart", "J")
         # Then dealer
-        g.deck.change_card(1, "Club", "J")
+        g.deck.set_card(1, "Club", "J")
         # Then player
-        g.deck.change_card(2, "Club", "K")
+        g.deck.set_card(2, "Club", "K")
         # Then finally dealer
-        g.deck.change_card(3, "Club", "6")
+        g.deck.set_card(3, "Club", "6")
         # Then finally dealer
-        g.deck.change_card(4, "Club", "Q")
+        g.deck.set_card(4, "Club", "Q")
 
         g.play()
 

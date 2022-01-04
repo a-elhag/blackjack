@@ -22,3 +22,16 @@ class TestCard:
         assert 10 == c_J.get_value()
         assert 10 == c_10.get_value()
         assert 7 == c_7.get_value()
+
+
+    def test_card_set_card(self):
+        c = Card("Spade", "3")
+
+        assert c.get_suit() == "Spade"
+        assert c.get_rank() == "3"
+
+        c.set_card("Diamond", "6")
+
+        assert c.get_suit() == "Diamond"
+        assert c.get_rank() == "6"
+        

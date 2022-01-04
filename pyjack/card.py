@@ -8,6 +8,10 @@ class Card():
     """
 
     def __init__(self, suit, value):
+        self.set_card(suit, value)
+
+
+    def set_card(self, suit, value):
         self.suit = suit
         self.value = value
         self.set_suite()
@@ -23,7 +27,7 @@ class Card():
         elif self.suit == "Heart":
             self.suit_symbol = "♥"
 
-
+    
     def get_value(self):
         """Get numeric value of card
         Returns card value
@@ -34,6 +38,12 @@ class Card():
         if self.value == "J" or self.value == "Q" or self.value == "K":
             return 10
         return int(self.value)
+
+    def get_suit(self):
+        return self.suit
+
+    def get_rank(self):
+        return self.value
 
     def __repr__(self):
         """Repr of card"""
