@@ -15,17 +15,17 @@ class TestGame:
     def test_game_new_hand(self):
         d = Deck(1)
         g = Game(d, SimpleStrategy, DealerStrategy)
-        player_hand, dealer_hand = g.new_hand()
+        g.new_hand()
 
-        assert player_hand.cards[0].suit == 'Spade'
-        assert player_hand.cards[0].value == 'A'
-        assert player_hand.cards[1].suit == 'Spade'
-        assert player_hand.cards[1].value == '3'
+        assert g.player_hand.cards[0].suit == 'Spade'
+        assert g.player_hand.cards[0].value == 'A'
+        assert g.player_hand.cards[1].suit == 'Spade'
+        assert g.player_hand.cards[1].value == '3'
 
-        assert dealer_hand.cards[0].suit == 'Spade'
-        assert dealer_hand.cards[0].value == '2'
-        assert dealer_hand.cards[1].suit == 'Spade'
-        assert dealer_hand.cards[1].value == '4'
+        assert g.dealer_hand.cards[0].suit == 'Spade'
+        assert g.dealer_hand.cards[0].value == '2'
+        assert g.dealer_hand.cards[1].suit == 'Spade'
+        assert g.dealer_hand.cards[1].value == '4'
 
 
     def test_game_check_blackjack(self):

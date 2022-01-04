@@ -54,6 +54,17 @@ class TestHand():
         h.add_card(c_6)
         assert h.get_value() == 16
 
+    def test_hand_clear_hand(self):
+        c_10 = Card('Spade', '10')
+
+        h = Hand()
+        h.add_card(c_10)
+        assert h.get_value() == 10
+
+        h.clear_cards()
+
+        assert h.get_value() == -1
+
 
     def test_hand_calculate_value_j_q_k(self):
         h = Hand()

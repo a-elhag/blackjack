@@ -44,6 +44,9 @@ class Hand():
 
         self.flag_cards_over = False
 
+        if self.cards == []:
+            self.value = -1
+
         for card in self.cards:
             if card == None:
                 self.flag_cards_over = True
@@ -66,6 +69,10 @@ class Hand():
                 counter_ace -= 1
 
 
+    def clear_cards(self):
+        self.cards = []
+
+
     def get_value(self):
         """Calculate value of hand and then return it"""
 
@@ -74,3 +81,7 @@ class Hand():
             return -1
         else:
             return self.value
+
+
+if __name__ == "__main__":
+    h = Hand()

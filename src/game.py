@@ -1,6 +1,10 @@
+import logging
+
 from src.deck import Deck
 from src.hand import Hand
 from src.strategy import SimpleStrategy, DealerStrategy
+
+logging.basicConfig(level=logging.DEBUG)
 
 class Game():
     """Blackjack game
@@ -19,35 +23,16 @@ class Game():
         self.game_info = {"wins": 0, "ties": 0, "losses": 0, "earnings": 0.0}
         self.has_split = False
 
+        self.player_hand = Hand()
+        self.dealer_hand = Hand()
 
-    def new_hand(self):
-        """Set up a new hand for the dealer and the player"""
-        # Step 0: Initialize
-        player_hand = Hand()
-        dealer_hand = Hand()
 
-        # Step 1: Deal inital cards
-        for _ in range(2):
-            player_hand.add_card(self.deck.deal())
-            dealer_hand.add_card(self.deck.deal())
-
-        # Step 2: Initialize default bet
-        player_hand.add_bet(self.default_bet)
-
-        return player_hand, dealer_hand
-
-    def play(self):
-        """Play a game
-        Returns game obj with stats
-        """
-
-        self.player_hand, self.dealer_hand = self.new_hand()
-
+    def calculate_game(self):
         # Step 3: Check if there is a blackjack
         flag_player_blackjack, flag_dealer_blackjack = Game.check_blackjack(
                 self.player_hand, self.dealer_hand)
         if flag_player_blackjack and flag_dealer_blackjack:
-            """This is a tie"""
+            """This is a tie (push)"""
             self.game_info["ties"] += 1
             return
         elif flag_dealer_blackjack:
@@ -104,6 +89,32 @@ class Game():
             return
 
 
+    def new_hand(self):
+        """Set up a new hand for the dealer and the player"""
+        # Step 0: Reset Hand
+        self.player_hand.clear_cards()
+        self.dealer_hand.clear_cards()
+
+        # Step 1: Deal inital cards
+        for _ in range(2):
+            self.player_hand.add_card(self.deck.deal())
+            self.dealer_hand.add_card(self.deck.deal())
+
+        # Step 2: Initialize default bet
+        self.player_hand.add_bet(self.default_bet)
+
+    def play(self):
+        """Play a game
+        Returns game obj with stats
+        """
+
+        # Deal a New Hand
+        self.new_hand()
+
+        # Calculate who won
+        self.calculate_game()
+
+
     @staticmethod
     def check_blackjack(player_hand, dealer_hand):
         """Check if player or the dealer has blackjack
@@ -128,6 +139,7 @@ class Game():
             hand: hand to check
         """
         return bool(hand.get_value() > 21)
+
 
     def display_a_hand(self):
         self.play()
