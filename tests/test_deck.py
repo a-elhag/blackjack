@@ -33,3 +33,12 @@ class TestDeck():
 
         assert c1.suit == 'Spade'
         assert c1.value == 'A'
+
+
+    def test_deck_change_card(self):
+        d1 = Deck(1)
+        d1.change_card(1, "Heart", "Q")
+
+        assert d1.cards[1].suit == "Heart"
+        assert d1.cards[1].value == "Q"
+

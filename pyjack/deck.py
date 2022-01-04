@@ -37,4 +37,14 @@ class Deck():
             return self.cards.pop(0)
 
 
+    def change_card(self, location, suit, value):
+        """Changes one of the cards
+        Args:
+            location: location of the card change
+            suit: suit of the desired card
+            value: value of the desired card
+        """
+        self.cards[location].suit = suit
+        self.cards[location].value = value
+        self.cards[location].set_suite()
 

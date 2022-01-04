@@ -97,18 +97,16 @@ class TestDealerStrategy():
 
 
     def test_dealer_strategy_hit(self):
-        c_3 = Card('Club', '3')
+        c_6 = Card('Club', '6')
         c_j = Card('Heart', 'J')
-        
+       
         d = Deck(1)
-        d.shuffle()
-        d.cut()
 
         h = Hand()
-        h.add_card(c_3)
+        h.add_card(c_6)
         h.add_card(c_j)
 
-        assert h.get_value() == 13
+        assert h.get_value() == 16
 
         s = DealerStrategy(d)
         s.play(h)

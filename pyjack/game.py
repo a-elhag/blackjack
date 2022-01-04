@@ -53,11 +53,6 @@ class Game():
             """This is a tie"""
             self.game_info["ties"] += 1
             return
-        elif flag_player_blackjack:
-            """Player gets a 'natural win', usually meaning a 3-2 payout"""
-            self.game_info["wins"] += 1
-            self.game_info["earnings"] += self.default_bet*self.payout_blackjack
-            return
         elif flag_dealer_blackjack:
             """Dealer has a blackjack, game automatically ends and player loses 
             their bet"""
@@ -79,6 +74,12 @@ class Game():
 
         # Step 7: Check if the dealer busts
         if Game.check_bust(self.dealer_hand):
+            if flag_player_blackjack:
+                """Player gets a 'natural win', usually meaning a 3-2 payout"""
+                self.game_info["wins"] += 1
+                self.game_info["earnings"] += self.default_bet*self.payout_blackjack
+                return
+
             self.game_info["wins"] += 1
             self.game_info["earnings"] += self.default_bet
             return
@@ -88,6 +89,11 @@ class Game():
             self.game_info["ties"] += 1
             return
         elif self.player_hand.get_value() > self.dealer_hand.get_value():
+            if flag_player_blackjack:
+                """Player gets a 'natural win', usually meaning a 3-2 payout"""
+                self.game_info["wins"] += 1
+                self.game_info["earnings"] += self.default_bet*self.payout_blackjack
+                return
             self.game_info["wins"] += 1
             self.game_info["earnings"] += self.default_bet
             return
@@ -124,17 +130,22 @@ class Game():
 
     def display_a_hand(self):
         self.play()
-        logging.debug("(Player) " + g.player_hand.__str__())
-        logging.debug("(Dealer) " + g.dealer_hand.__str__())
+        logging.debug("(Player) " + self.player_hand.__str__())
+        logging.debug("(Dealer) " + self.dealer_hand.__str__())
         logging.debug("(Results) " + str(self.game_info))
         
 
 
-d = Deck(1)
-d.shuffle()
-d.cut()
+def main():
+    d = Deck(1)
+    d.shuffle()
+    d.cut()
 
-g = Game(d, SimpleStrategy, DealerStrategy)
+    g = Game(d, SimpleStrategy, DealerStrategy)
 
-for _ in range(5):
-    g.display_a_hand()
+    for _ in range(5):
+        g.display_a_hand()
+
+
+if __name__ == "__main__":
+    main()

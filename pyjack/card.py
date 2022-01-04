@@ -10,7 +10,10 @@ class Card():
     def __init__(self, suit, value):
         self.suit = suit
         self.value = value
+        self.set_suite()
 
+
+    def set_suite(self):
         if self.suit == "Spade":
             self.suit_symbol = "♠"
         elif self.suit == "Club":
