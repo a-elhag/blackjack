@@ -34,6 +34,15 @@ class SimpleStrategy():
                 break
 
 
+class BasicStrategy():
+    """Basic 21 strategy as calculated
+    Args:
+        deck: deck of cards to deal from
+    """
+    def __init__(self, deck):
+        self.deck = deck
+
+
 class DealerStrategy():
     """Dealer basic casino rules strategy
     If total hand value >= 17, stand
